@@ -9,7 +9,7 @@ import os
 LOG_FILE = "log" + datetime.datetime.now().isoformat() + ".ubx"
 #TCP_IP = '0.0.0.0'
 #TCP_PORT = 4161
-
+# waste comment
 #s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 #s.bind((TCP_IP, TCP_PORT))
 #s.listen(1)
