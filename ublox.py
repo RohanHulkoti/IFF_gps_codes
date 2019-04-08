@@ -51,7 +51,9 @@ MSG_NAV_SOL       = 0x06
 
 # RXM messages
 MSG_RXM_RAW    = 0x10
+MSG_RXM_RAWX    = 0x15
 MSG_RXM_SFRB   = 0x11
+MSG_RXM_SFRBX   = 0x13
 MSG_RXM_SVSI   = 0x20
 MSG_RXM_EPH    = 0x31
 MSG_RXM_ALM    = 0x30
@@ -438,7 +440,16 @@ msg_types = {
                                                   'numSV',
                                                   '<ddfBbbB',
                                                   ['cpMes', 'prMes', 'doMes', 'sv', 'mesQI', 'cno', 'lli']),
+    (CLASS_RXM, MSG_RXM_RAWX)   : UBloxDescriptor('RXM_RAWX',
+                                                  '<ihBB',
+                                                  ['iTOW', 'week', 'numSV', 'reserved1'],
+                                                  'numSV',
+                                                  '<ddfBbbB',
+                                                  ['cpMes', 'prMes', 'doMes', 'sv', 'mesQI', 'cno', 'lli']),
     (CLASS_RXM, MSG_RXM_SFRB)  : UBloxDescriptor('RXM_SFRB',
+                                                  '<BB10I',
+                                                  ['chn', 'svid', 'dwrd[10]']),
+    (CLASS_RXM, MSG_RXM_SFRBX)  : UBloxDescriptor('RXM_SFRBX',
                                                   '<BB10I',
                                                   ['chn', 'svid', 'dwrd[10]']),
     (CLASS_AID, MSG_AID_ALM)   : UBloxDescriptor('AID_ALM',
@@ -565,6 +576,8 @@ class UBloxMessage:
         if not self.valid():
             raise UbloxError('INVALID MESSAGE')
         type = self.msg_type()
+        #print(type)
+        #print(msg_types)
         if not type in msg_types:
             raise UBloxError('Unknown message %s length=%u' % (str(type), len(self._buf)))
         return msg_types[type].name
